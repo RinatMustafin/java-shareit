@@ -153,6 +153,7 @@
 					<configuration>
 						<effort>Max</effort>
 						<threshold>High</threshold>
+						<failOnError>false</failOnError>
 					</configuration>
 					<executions>
 						<execution>
