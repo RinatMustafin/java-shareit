@@ -124,7 +124,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemWithBookingDto getItemById(Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь не найдена!"));
 
         List<CommentDto> comments = commentRepository.findByItemId(itemId)
                 .stream()
