@@ -60,7 +60,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponseDto update(Long userId, Long bookingId, boolean approved) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ConflictException("Бронирование не найдено"));
+                .orElseThrow(() -> new NotFoundException("Бронирование не найдено"));
 
         if (!booking.getItem().getOwner().getId().equals(userId)) {
             throw new ValidationException("Подтверждать бронирование может только владелец вещи");
