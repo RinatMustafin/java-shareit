@@ -103,7 +103,7 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь не найдена!"));
 
         boolean hasBooking = bookingRepository.existsByBookerIdAndItemIdAndStatusAndEndBefore(
                 userId, itemId, Status.APPROVED, LocalDateTime.now());
