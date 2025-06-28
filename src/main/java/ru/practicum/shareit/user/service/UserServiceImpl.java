@@ -2,11 +2,11 @@ package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.ConflictException;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.exception.ConflictException;
-import ru.practicum.shareit.user.exception.NotFoundException;
 import ru.practicum.shareit.user.mapper.UserMapper;
 
 import java.util.List;
@@ -20,8 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto create(UserDto userDto) {
-        if (userRepository.findAll().stream()
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(userDto.getEmail()))) {
+        if (userRepository.existsByEmailIgnoreCase(userDto.getEmail())) {
             throw new ConflictException("Email уже используется: " + userDto.getEmail());
         }
         User user = UserMapper.toUser(userDto);
@@ -45,8 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(Long id, UserDto userDto) {
         if (userDto.getEmail() != null &&
-                userRepository.findAll().stream()
-                        .anyMatch(u -> u.getEmail().equalsIgnoreCase(userDto.getEmail()))) {
+                userRepository.findByEmailIgnoreCase(userDto.getEmail()).isPresent()) {
             throw new ConflictException("Email уже используется другим пользователем");
         }
 

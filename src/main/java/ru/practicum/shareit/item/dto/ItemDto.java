@@ -4,11 +4,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class ItemDto {
     private Long id;
@@ -19,4 +24,5 @@ public class ItemDto {
     @NotNull
     private Boolean available;
     private Long requestId;
+    private List<CommentDto> comments = new ArrayList<>();
 }
