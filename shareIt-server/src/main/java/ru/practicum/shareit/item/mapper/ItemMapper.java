@@ -23,12 +23,6 @@ public class ItemMapper {
         );
     }
 
-    public static ItemDto toDtoWithComments(Item item, List<CommentDto> comments) {
-        ItemDto dto = toDto(item);
-        dto.setComments(comments);
-        return dto;
-    }
-
     public static Item toItem(ItemDto dto, User owner, ItemRequest request) {
         Item item = new Item();
         item.setName(dto.getName());
