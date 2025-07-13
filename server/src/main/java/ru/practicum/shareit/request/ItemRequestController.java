@@ -15,13 +15,13 @@ import java.util.List;
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor
 public class ItemRequestController {
-    private static final String USER_ID_HEADER = "X-Sharer-User-Id";
 
     private final ItemRequestService itemRequestService;
 
+    private static final String USER_ID_HEADER = "X-Sharer-User-Id";
+
     @PostMapping
-    public ItemRequestDto create(@RequestHeader(USER_ID_HEADER) Long userId,
-                                 @RequestBody @Valid ItemRequestDto itemRequestDto) {
+    public ItemRequestDto create(@RequestHeader(USER_ID_HEADER) Long userId, @RequestBody @Valid ItemRequestDto itemRequestDto) {
         return itemRequestService.create(userId, itemRequestDto);
     }
 
