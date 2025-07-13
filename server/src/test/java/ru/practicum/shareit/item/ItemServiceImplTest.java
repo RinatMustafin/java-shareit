@@ -72,7 +72,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void create_whenUserExistsAndRequestExists_thenCreateItem() {
+    void create_whenOk_thenCreate() {
         ItemRequest request = new ItemRequest();
         request.setId(10L);
 
@@ -94,14 +94,14 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void create_whenUserNotFound_thenThrowNotFoundException() {
+    void create_whenNoUser_thenThrow() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> itemService.create(1L, itemDto));
     }
 
     @Test
-    void create_whenRequestNotFound_thenThrowNotFoundExceptionRequest() {
+    void create_whenNoRequest_thenThrow() {
         when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
         when(itemRequestRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -111,7 +111,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void update_whenOwnerMatches_thenUpdateItem() {
+    void update_whenOk_thenUpdate() {
         ItemDto updateDto = new ItemDto();
         updateDto.setName("New Drill");
         updateDto.setDescription("New description");
@@ -128,14 +128,14 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void update_whenItemNotFound_thenThrowNotFoundException() {
+    void update_whenNoItem_thenThrow() {
         when(itemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> itemService.update(owner.getId(), 1L, itemDto));
     }
 
     @Test
-    void update_whenOwnerMismatch_thenThrowNotFoundOwnerException() {
+    void update_whenOwnerMismatch_thenThrow() {
         User anotherUser = new User();
         anotherUser.setId(2L);
         item.setOwner(anotherUser);
@@ -161,7 +161,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void getById_whenItemNotFound_thenThrowNotFoundException() {
+    void getById_whenItemNotFound_thenThrow() {
         when(itemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> itemService.getById(1L, owner.getId()));
@@ -202,7 +202,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addComment_whenUserHasNoBooking_thenThrowValidationException() {
+    void addComment_whenUserHasNoBooking_thenThrow() {
         CommentDto commentDto = new CommentDto();
         commentDto.setText("Nice item!");
 
@@ -217,7 +217,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addComment_whenUserNotFound_thenThrowNotFoundException() {
+    void addComment_whenUserNotFound_thenThrow() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () ->
@@ -225,7 +225,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addComment_whenItemNotFound_thenThrowNotFoundException() {
+    void addComment_whenItemNotFound_thenThrow() {
         when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
         when(itemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -234,7 +234,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addComment_whenNoBooking_thenThrowValidationException() {
+    void addComment_whenNoBooking_thenThrow() {
         when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
         when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
         when(bookingRepository.existsByBookerIdAndItemIdAndStatusAndEndBefore(
